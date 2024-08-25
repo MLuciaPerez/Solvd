@@ -1,4 +1,5 @@
 import Model.*;
+import Model.Exceptions.*;
 import Model.Interfaces.Diagnosable;
 import Model.Interfaces.MedicationProvider;
 import Model.Interfaces.Treatable;
@@ -25,14 +26,14 @@ public class Main {
         System.out.println("Billing and Medication objects created.\n");
 
         // Instantiate a PatientZ object with Billing and Medications
-        System.out.println("Instantiating PatientZ object...");
+        System.out.println("Instantiating Patient object...");
         Patient patient = new Patient("John Doe", 30, "P001", "Flu", billing, medications);
         System.out.println("PatientZ object instantiated.\n");
 
         // Link the Billing object back to the patient
-        System.out.println("Linking Billing object back to the PatientZ...");
+        System.out.println("Linking Billing object back to the Patient...");
         billing.setPatient(patient);
-        System.out.println("Billing object linked to PatientZ.\n");
+        System.out.println("Billing object linked to Patient.\n");
 
         // Demonstrate treating the patient
         System.out.println("Demonstrating treating the patient using polymorphism...");
@@ -61,22 +62,47 @@ public class Main {
         admin.manage();
         System.out.println("Management demonstrated.\n");
 
-        // Demonstrate static method calls
-        System.out.println("Demonstrating static method calls...");
 
-        // Crear una instancia de HospitalUtils
+        //   EXCEPTIONS
+
+        // Create an instance of HospitalUtils
         HospitalUtils hospitalUtils = new HospitalUtils();
+        System.out.println("\n");
 
-        // Registrar pacientes usando el método estático de HospitalUtils y especificar el departamento
-        HospitalUtils.registerPatient("Cardiology");
-        HospitalUtils.registerPatient("Neurology");
+        try {
+            // Register patients in various departments
+            HospitalUtils.registerPatient("Cardiology", "John Doe", 45);
+            HospitalUtils.registerPatient("Neurology", "Jane Smith", 30);
+            // Attempt to register a duplicate patient to trigger DuplicatePatientException
+            HospitalUtils.registerPatient("Cardiology", "John Doe", 45);
+        } catch (DepartmentNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (InvalidAgeException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (DuplicatePatientException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
 
-        // Mostrar el total de pacientes
+        // Display the total number of patients
         HospitalUtils.showTotalPatients();
 
-        // Mostrar el conteo de pacientes por departamento
+        // Display the patient count by department
         HospitalUtils.showPatientCountByDepartment();
 
-        System.out.println("Static methods called.\n");
+        // Process payment
+        try {
+            hospitalUtils.processPayment(150.00);  // Process a payment with a valid amount
+            hospitalUtils.processPayment(-50.00); // Attempt to process a payment with an invalid amount to trigger an InsufficientFundsException
+        } catch (InsufficientFundsException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        // Accessing patients data
+        try {
+            hospitalUtils.accessPatientData(true);
+            hospitalUtils.accessPatientData(false); // Attempt to access patient data without permission to trigger an UnauthorizedAccessException
+        } catch (UnauthorizedAccessException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }
