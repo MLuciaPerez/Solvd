@@ -2,6 +2,9 @@ package Model;
 
 import Model.Exceptions.*;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -52,8 +55,17 @@ public class HospitalUtils {
         departmentPatientCount.put(department, departmentPatientCount.get(department) + 1);
         registeredPatients.add(patientName); // Add patient to the set
         System.out.println("Patient registered: " + patientName + " in department: " + department + ", Age: " + age);
-    }
 
+        // Try-with-resources
+        try (
+                BufferedWriter writer = new BufferedWriter(new FileWriter("src/patients.txt", true))) {
+            writer.write("Patient registered: " + patientName + " in department: " + department + ", Age: " + age);
+            writer.newLine();
+        } catch (
+                IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
+    }
 
     // Method to process payment with exception handling
     public void processPayment(double amount) throws InsufficientFundsException {
