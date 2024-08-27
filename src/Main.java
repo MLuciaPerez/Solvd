@@ -3,6 +3,9 @@ import Model.Exceptions.*;
 import Model.Interfaces.Diagnosable;
 import Model.Interfaces.MedicationProvider;
 import Model.Interfaces.Treatable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import java.io.File;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +13,10 @@ import java.util.List;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
+    public static Logger logger;
     public static void main(String[] args) {
+        File log4j2File = new File("C:\\Users\\Lucia\\Documents\\GitHub\\Solvd\\src\\Resources\\log4j2.properties");
+        System.setProperty("log4j2.configurationFile", log4j2File.toURI().toString());
 
         System.out.println("Creating Doctor and Nurse objects...");
         MedicalStaff doctor = new Doctor("Dr. Smith", 45, "D001", "Cardiology");
@@ -104,5 +110,7 @@ public class Main {
         } catch (UnauthorizedAccessException e) {
             System.out.println("Error: " + e.getMessage());
         }
+
+
     }
 }
