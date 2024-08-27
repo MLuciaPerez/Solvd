@@ -7,15 +7,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import java.io.File;
 
 public class HospitalUtils {
     private static int totalPatients;
     private static HashMap<String, Integer> departmentPatientCount;
     private static HashSet<String> registeredPatients = new HashSet<>(); // Set to keep track of registered patients
 
+    private static final Logger logger = LogManager.getLogger(HospitalUtils.class);
+
 
     static {
-        System.out.println("Static block in HospitalUtils class executed.");
+        logger.info("Static block in HospitalUtils class executed.");
 
         // Inicializar las variables estáticas
         departmentPatientCount = new HashMap<>();
@@ -23,13 +28,13 @@ public class HospitalUtils {
         departmentPatientCount.put("Neurology", 0);
         departmentPatientCount.put("General", 0);
 
-        System.out.println("Patient department counts initialized.");
+        logger.info("Patient department counts initialized.");
     }
 
     public HospitalUtils() {
         // Llamar al método de reinicio de variables estáticas
         resetVariables();
-        System.out.println("HospitalUtils instance created and variables reset.");
+        logger.info("HospitalUtils instance created and variables reset.");
     }
 
     private void resetVariables() {
@@ -54,7 +59,7 @@ public class HospitalUtils {
         totalPatients++;
         departmentPatientCount.put(department, departmentPatientCount.get(department) + 1);
         registeredPatients.add(patientName); // Add patient to the set
-        System.out.println("Patient registered: " + patientName + " in department: " + department + ", Age: " + age);
+        logger.info("Patient registered: " + patientName + " in department: " + department + ", Age: " + age);
 
         // Try-with-resources
         try (
@@ -72,7 +77,7 @@ public class HospitalUtils {
         if (amount < 0) {
             throw new InsufficientFundsException("Insufficient funds to process the payment.");
         }
-        System.out.println("Payment processed: $" + amount);
+        logger.info("Payment processed: $" + amount);
     }
 
 
@@ -81,17 +86,17 @@ public class HospitalUtils {
         if (!hasPermission) {
             throw new UnauthorizedAccessException("Unauthorized access to patient data.");
         }
-        System.out.println("Patient data accessed successfully.");
+        logger.info("Patient data accessed successfully.");
     }
 
     public static void showTotalPatients() {
-        System.out.println("Total number of patients: " + totalPatients);
+        logger.info("Total number of patients: " + totalPatients);
     }
 
     public static void showPatientCountByDepartment() {
-        System.out.println("Patient count by department:");
+        logger.info("Patient count by department:");
         for (HashMap.Entry<String, Integer> entry : departmentPatientCount.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+            logger.info(entry.getKey() + ": " + entry.getValue());
         }
     }
 }
