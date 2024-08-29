@@ -4,13 +4,16 @@ import Model.Interfaces.Payable;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TreeSet;
 
 public final class Patient extends Person implements Payable {
     protected String patientId;
     protected String ailment;
     private Billing billing;
-    private ArrayList<Medication> medications;
+    private ArrayList<Medication> medications; //Array of medications
+    private TreeSet<Date> appointmentDates;
 
     // Constructor
     public Patient(String name, int age, String patientId, String ailment, Billing billing, ArrayList<Medication> medications) {
@@ -19,6 +22,7 @@ public final class Patient extends Person implements Payable {
         this.ailment = ailment;
         this.billing = billing;
         this.medications = medications;
+        this.appointmentDates = new TreeSet<>();
     }
 
     // Implement Payable interface method
@@ -88,5 +92,14 @@ public final class Patient extends Person implements Payable {
         if (!super.equals(obj)) return false;
         Patient patient = (Patient) obj;
         return patientId.equals(patient.patientId) && ailment.equals(patient.ailment);
+    }
+
+    public void addAppointmentDate(Date date) {
+        appointmentDates.add(date);
+        System.out.println("Appointment date added: " + date);
+    }
+
+    public TreeSet<Date> getAppointmentDates() {
+        return appointmentDates;
     }
 }
