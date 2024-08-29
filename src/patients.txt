@@ -15,3 +15,5 @@ Patient registered: John Doe in department: Cardiology, Age: 45
 Patient registered: Jane Smith in department: Neurology, Age: 30
 Patient registered: John Doe in department: Cardiology, Age: 45
 Patient registered: Jane Smith in department: Neurology, Age: 30
+Patient registered: John Doe in department: Cardiology, Age: 45
+Patient registered: Jane Smith in department: Neurology, Age: 30

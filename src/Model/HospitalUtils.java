@@ -13,8 +13,8 @@ import java.io.File;
 
 public class HospitalUtils {
     private static int totalPatients;
-    private static HashMap<String, Integer> departmentPatientCount;
-    private static HashSet<String> registeredPatients = new HashSet<>(); // Set to keep track of registered patients
+    private static HashMap<String, Integer> departmentPatientCount; //Map for patient count
+    private static HashSet<String> registeredPatients = new HashSet<>(); // Set to keep track of registered patients.
 
     private static final Logger logger = LogManager.getLogger(HospitalUtils.class);
 

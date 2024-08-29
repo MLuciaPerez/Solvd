@@ -2,13 +2,17 @@ package Model;
 
 import Model.Interfaces.Treatable;
 
+import java.util.HashSet;
+
 public class Nurse extends MedicalStaff implements Treatable {
     private String shift;
+    private HashSet<String> medicalEquipment; //Keep track of unique medical equipment a nurse handles.
 
     // Constructor
     public Nurse(String name, int age, String employeeId, String shift) {
         super(name, age, employeeId);
         this.shift = shift;
+        this.medicalEquipment = new HashSet<>();
     }
 
     // Implement Treatable interface method
@@ -35,5 +39,14 @@ public class Nurse extends MedicalStaff implements Treatable {
 
     public void setShift(String shift) {
         this.shift = shift;
+    }
+
+    public void addEquipment(String equipment) {
+        medicalEquipment.add(equipment);
+        System.out.println("Equipment added: " + equipment);
+    }
+
+    public HashSet<String> getMedicalEquipment() {
+        return medicalEquipment;
     }
 }
