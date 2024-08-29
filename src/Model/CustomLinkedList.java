@@ -1,7 +1,7 @@
 package Model;
 
 public class CustomLinkedList<T> {
-    private Node<T> head;
+    private Node<T> first;
     private int size;
 
 
@@ -18,10 +18,10 @@ public class CustomLinkedList<T> {
 
     public void add(T data) {
         Node<T> newNode = new Node<>(data);
-        if (head == null) {
-            head = newNode;
+        if (first == null) {
+            first = newNode;
         } else {
-            Node<T> current = head;
+            Node<T> current = first;
             while (current.next != null) {
                 current = current.next;
             }
@@ -32,16 +32,16 @@ public class CustomLinkedList<T> {
 
 
     public boolean remove(T data) {
-        if (head == null) return false;
+        if (first == null) return false;
 
         // Special case if the data is at the head
-        if (head.data.equals(data)) {
-            head = head.next;
+        if (first.data.equals(data)) {
+            first = first.next;
             size--;
             return true;
         }
 
-        Node<T> current = head;
+        Node<T> current = first;
         while (current.next != null) {
             if (current.next.data.equals(data)) {
                 current.next = current.next.next;
@@ -54,18 +54,20 @@ public class CustomLinkedList<T> {
     }
 
 
-    public int size() {
+    public int getSize() {
+
         return size;
     }
 
     // Method to check if the LinkedList is empty
     public boolean isEmpty() {
+
         return size == 0;
     }
 
     // Method to display elements of the LinkedList
     public void display() {
-        Node<T> current = head;
+        Node<T> current = first;
         while (current != null) {
             System.out.print(current.data + " -> ");
             current = current.next;
