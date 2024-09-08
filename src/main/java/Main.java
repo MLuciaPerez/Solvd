@@ -4,6 +4,13 @@ import Model.Interfaces.Diagnosable;
 import Model.Interfaces.MedicationProvider;
 import Model.Interfaces.Treatable;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.io.File;
 
 import java.util.ArrayList;
@@ -111,6 +118,23 @@ public class Main {
             System.out.println("Error: " + e.getMessage());
         }
 
+        try {
+            // Specify the input file and the output file
+            File inputFile = new File("C:\\Users\\Lucia\\Documents\\GitHub\\Solvd\\src\\main\\java\\patients.txt"); // Replace with your actual path
+            File outputFile = new File("C:\\Users\\Lucia\\Documents\\GitHub\\Solvd\\src\\main\\java\\Resources\\result.txt"); // Replace with your actual path
 
+            // Count the unique words
+            int uniqueWordsCount = Counter.countUniqueWords(inputFile);
+
+            // Print the result in the console
+            System.out.println("Unique word count: " + uniqueWordsCount);
+
+            // Write the result to the output file
+            Counter.writeResultToFile(outputFile, uniqueWordsCount);
+
+        } catch (IOException e) {
+            System.err.println("An error occurred: " + e.getMessage());
+        }
     }
+
 }
