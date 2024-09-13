@@ -1,4 +1,4 @@
-package Model;
+package Model.Classes;
 
 public abstract class Person {
     protected String name;  // Protected modifier

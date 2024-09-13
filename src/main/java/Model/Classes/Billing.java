@@ -1,4 +1,4 @@
-package Model;
+package Model.Classes;
 
 import Model.Interfaces.Payable;
 
@@ -29,10 +29,6 @@ public class Billing implements Payable {
     // Getter and Setter for amount
     public double getAmount() {
         return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
     }
 
     // Override toString() method from Object class

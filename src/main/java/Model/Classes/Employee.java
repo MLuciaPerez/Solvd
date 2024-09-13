@@ -1,4 +1,4 @@
-package Model;
+package Model.Classes;
 
 public abstract class Employee extends Person {
     protected String employeeId;

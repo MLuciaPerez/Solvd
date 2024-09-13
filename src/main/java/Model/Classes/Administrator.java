@@ -1,20 +1,27 @@
-package Model;
+package Model.Classes;
 
+import Model.Enums.Department;
 import Model.Interfaces.Manageable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
 public class Administrator extends Person implements Manageable {
-    private String department;
+
+    private static final Logger logger = LogManager.getLogger(Administrator.class);
     private HashMap<String, Integer> departmentStaffCount;//Map department names to the number of staff members in each department.
     // Static final variable
     public static final String role = "Administrator";
+    private Department department; // Enum as an attribute
+
 
     // Constructor
-    public Administrator(String name, int age, String department) {
+    public Administrator(String name, int age, Department department) {
         super(name, age);
         this.department = department;
         this.departmentStaffCount = new HashMap<>();
+        logger.info("Administrator created: " + name + ", Department: " + department);
     }
 
     // Implement Manageable interface method
@@ -31,11 +38,13 @@ public class Administrator extends Person implements Manageable {
 
 
     // Getter and Setter for department
-    public String getDepartment() {
+
+
+    public Department getDepartment() {
         return department;
     }
 
-    public void setDepartment(String department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
 
@@ -45,6 +54,7 @@ public class Administrator extends Person implements Manageable {
     }
 
     public HashMap<String, Integer> getDepartmentStaffCount() {
+
         return departmentStaffCount;
     }
 }

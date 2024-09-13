@@ -1,140 +1,126 @@
-import Model.*;
+
+import Model.Classes.*;
+import Model.Enums.AppointmentStatus;
+import Model.Enums.Department;
+import Model.Enums.EquipmentType;
+import Model.Enums.Specialty;
 import Model.Exceptions.*;
 import Model.Interfaces.Diagnosable;
 import Model.Interfaces.MedicationProvider;
 import Model.Interfaces.Treatable;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import java.io.File;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
+import java.util.*;
+import java.util.function.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static Logger logger;
+    private static final Logger logger = LogManager.getLogger(Main.class);
+
     public static void main(String[] args) {
         File log4j2File = new File("C:\\Users\\Lucia\\Documents\\GitHub\\Solvd\\src\\main\\resources\\log4j2.xml");
         System.setProperty("log4j2.configurationFile", log4j2File.toURI().toString());
 
-        System.out.println("Creating Doctor and Nurse objects...");
-        MedicalStaff doctor = new Doctor("Dr. Smith", 45, "D001", "Cardiology");
-        MedicalStaff nurse = new Nurse("Nina Williams", 29, "N001", "Night");
-        System.out.println("Doctor and Nurse objects created.\n");
+        logger.info("Creating Doctor and Nurse objects...");
+        MedicalStaff doctor = new Doctor("Dr. Smith", 45, "D001", Specialty.CARDIOLOGY);
+        MedicalStaff nurse = new Nurse("Nina Williams", 29, "N001", "Night", EquipmentType.STETHOSCOPE);
+        logger.info("Doctor and Nurse objects created.\n");
 
         // Create Billing and Medication objects
-        System.out.println("Creating Billing and Medication objects...");
+        logger.info("Creating Billing and Medication objects...");
         Billing billing = new Billing(null, 1500.00);
-        ArrayList<Medication> medications = new ArrayList();
+        ArrayList<Medication> medications = new ArrayList<>();
         medications.add(new Medication("Amoxicillin", "500mg"));
         medications.add(new Medication("Ibuprofen", "200mg"));
-        System.out.println("Billing and Medication objects created.\n");
+        logger.info("Billing and Medication objects created.\n");
 
-        // Instantiate a PatientZ object with Billing and Medications
-        System.out.println("Instantiating Patient object...");
-        Patient patient = new Patient("John Doe", 30, "P001", "Flu", billing, medications);
-        System.out.println("PatientZ object instantiated.\n");
+        // Instantiate a Patient object with Billing and Medications
+        Patient patientInstance = new Patient("John Doe", 30, "P001", "Flu", billing, medications, AppointmentStatus.SCHEDULED);
+        logger.info("Patient object instantiated.\n");
 
         // Link the Billing object back to the patient
-        System.out.println("Linking Billing object back to the Patient...");
-        billing.setPatient(patient);
-        System.out.println("Billing object linked to Patient.\n");
-
-        // Demonstrate treating the patient
-        System.out.println("Demonstrating treating the patient using polymorphism...");
-        ((Treatable) doctor).treatPatient(patient);
-        ((Treatable) nurse).treatPatient(patient);
-        System.out.println("Treatment demonstrated.\n");
-
-        // Demonstrate prescribing medication
-        System.out.println("Demonstrating prescribing medication...");
-        ((MedicationProvider) doctor).prescribeMedication(patient, "Paracetamol", "500mg");
-        System.out.println("Medication prescribed.\n");
-
-        // Demonstrate diagnosis
-        System.out.println("Demonstrating diagnosis...");
-        ((Diagnosable) doctor).diagnose(patient);
-        System.out.println("Diagnosis demonstrated.\n");
-
-        // Demonstrate payment processing
-        System.out.println("Demonstrating payment processing...");
-        patient.processPayment();
-        System.out.println("Payment processed.\n");
+        logger.info("Linking Billing object back to the Patient...");
+        billing.setPatient(patientInstance);
+        logger.info("Billing object linked to Patient.\n");
 
         // Demonstrate administrative management
-        System.out.println("Demonstrating administrative management...");
-        Administrator admin = new Administrator("Alice Johnson", 50, "Finance");
+        logger.info("Demonstrating administrative management...");
+        Administrator admin = new Administrator("Alice Johnson", 50, Department.EMERGENCY);
         admin.manage();
-        System.out.println("Management demonstrated.\n");
+        logger.info("Management demonstrated.\n");
 
 
-        //   EXCEPTIONS
+        //LAMBDA FUNCTIONS
+        Predicate<Patient> hasFlu = patient -> "Flu".equals(patient.getAilment());
 
-        // Create an instance of HospitalUtils
-        HospitalUtils hospitalUtils = new HospitalUtils();
-        System.out.println("\n");
+        Function<Patient, Double> totalMedicationCost = patient -> {
+            double total = 0;
+            for (Medication medication : patient.getMedications()) {
+                total += 50.00; // Assuming each medication costs 50.00
+            }
+            return total;
+        };
 
-        try {
-            // Register patients in various departments
-            HospitalUtils.registerPatient("Cardiology", "John Doe", 45);
-            HospitalUtils.registerPatient("Neurology", "Jane Smith", 30);
-            // Attempt to register a duplicate patient to trigger DuplicatePatientException
-            HospitalUtils.registerPatient("Cardiology", "John Doe", 45);
-        } catch (DepartmentNotFoundException e) {
-            System.out.println("Error: " + e.getMessage());
-        } catch (InvalidAgeException e) {
-            System.out.println("Error: " + e.getMessage());
-        } catch (DuplicatePatientException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        Consumer<Patient> printPatientDetails = patient -> logger.info("Patient: " + patient.getName() + ", Ailment: " + patient.getAilment());
 
-        // Display the total number of patients
-        HospitalUtils.showTotalPatients();
+        Supplier<Billing> billingSupplier = () -> new Billing(null, 1500.00);
 
-        // Display the patient count by department
-        HospitalUtils.showPatientCountByDepartment();
+        UnaryOperator<Double> applyDiscount = amount -> amount * 0.90; // Aplicar un descuento del 10%
 
-        // Process payment
-        try {
-            hospitalUtils.processPayment(150.00);  // Process a payment with a valid amount
-            hospitalUtils.processPayment(-50.00); // Attempt to process a payment with an invalid amount to trigger an InsufficientFundsException
-        } catch (InsufficientFundsException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        // Using the lambda functions
+        logger.info("Patient has flu: " + hasFlu.test(patientInstance));
 
-        // Accessing patients data
-        try {
-            hospitalUtils.accessPatientData(true);
-            hospitalUtils.accessPatientData(false); // Attempt to access patient data without permission to trigger an UnauthorizedAccessException
-        } catch (UnauthorizedAccessException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        logger.info("Total medication cost: " + totalMedicationCost.apply(patientInstance));
 
-        try {
-            // Specify the input file and the output file
-            File inputFile = new File("C:\\Users\\Lucia\\Documents\\GitHub\\Solvd\\src\\main\\java\\patients.txt"); // Replace with your actual path
-            File outputFile = new File("C:\\Users\\Lucia\\Documents\\GitHub\\Solvd\\src\\main\\java\\Resources\\result.txt"); // Replace with your actual path
+        printPatientDetails.accept(patientInstance);
 
-            // Count the unique words
-            int uniqueWordsCount = Counter.countUniqueWords(inputFile);
+        double amount = patientInstance.getBilling().getAmount();
+        double discountedAmount = applyDiscount.apply(amount);
+        logger.info("Discounted amount: " + discountedAmount);
 
-            // Print the result in the console
-            System.out.println("Unique word count: " + uniqueWordsCount);
+        Billing billing1 = billingSupplier.get();
+        logger.info("Billing object created using Supplier.\n");
 
-            // Write the result to the output file
-            Counter.writeResultToFile(outputFile, uniqueWordsCount);
 
-        } catch (IOException e) {
-            System.err.println("An error occurred: " + e.getMessage());
-        }
+        // Instantiate a Patient object with Billing and Medications
+        Patient patient = new Patient("John Doe", 30, "P001", "Flu", billing, medications,AppointmentStatus.RESCHEDULED);
+
+        // Test Custom Generic Lambda #1: applyFieldFunction
+        logger.info("Testing applyFieldFunction...");
+        String patientName = applyFieldFunction(Patient::getName, patient);
+        logger.info("Patient name: " + patientName);
+
+        // Test Custom Generic Lambda #2: processList
+        logger.info("Testing processList...");
+        processList(list -> list.forEach(med -> logger.info("Medication: " + med.getName() + ", Dosage: " + med.getDosage())), medications);
+
+        // Test Custom Generic Lambda #3: compareObjects
+        logger.info("Testing compareObjects...");
+        // Compare the names of Doctor and Patient
+        boolean areEqual = compareObjects((d, p) -> d.getName().equals(p.getName()), doctor, patient);
+        logger.info("Are Doctor and Patient names the same? " + areEqual);
+
+}
+
+    // Method that applies a given function to an object of type T and returns a result of type R.
+    public static <T, R> R applyFieldFunction(Function<T, R> function, T object) {
+        // Applies the provided function to the given object and returns the result.
+        return function.apply(object);
     }
 
+    // Method that processes a list of type T using a given consumer.
+    public static <T> void processList(Consumer<List<T>> consumer, List<T> list) {
+        // Passes the provided list to the consumer for processing.
+        consumer.accept(list);
+    }
+
+    // Method that compares two objects of type T and U using a given BiFunction and returns a result of type R.
+    public static <T extends Person, U extends Person, R> R compareObjects(BiFunction<T, U, R> biFunction, T obj1, U obj2) {
+        return biFunction.apply(obj1, obj2);
+    }
 }

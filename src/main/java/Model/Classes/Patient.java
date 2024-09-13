@@ -1,28 +1,34 @@
-package Model;
+package Model.Classes;
 
+import Model.Enums.AppointmentStatus;
 import Model.Interfaces.Payable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
 
 public final class Patient extends Person implements Payable {
+    private static final Logger logger = LogManager.getLogger(Patient.class);
     protected String patientId;
     protected String ailment;
     private Billing billing;
     private ArrayList<Medication> medications; //Array of medications
     private TreeSet<Date> appointmentDates;
+    private AppointmentStatus appointmentStatus; // Enum as an attribute
 
     // Constructor
-    public Patient(String name, int age, String patientId, String ailment, Billing billing, ArrayList<Medication> medications) {
+    public Patient(String name, int age, String patientId, String ailment, Billing billing, ArrayList<Medication> medications,AppointmentStatus appointmentStatus) {
         super(name, age);
         this.patientId = patientId;
         this.ailment = ailment;
         this.billing = billing;
         this.medications = medications;
         this.appointmentDates = new TreeSet<>();
+        this.appointmentStatus = appointmentStatus;
+        logger.info("Patient created: " + name + ", Appointment Status: " + appointmentStatus);
     }
 
     // Implement Payable interface method
@@ -43,6 +49,11 @@ public final class Patient extends Person implements Payable {
 
     public void setPatientId(String patientId) {
         this.patientId = patientId;
+    }
+
+    @Override
+    public String getName() {
+        return super.getName();
     }
 
     public String getAilment() {

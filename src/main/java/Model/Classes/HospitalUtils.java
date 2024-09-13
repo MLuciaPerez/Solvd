@@ -1,4 +1,4 @@
-package Model;
+package Model.Classes;
 
 import Model.Exceptions.*;
 import org.apache.logging.log4j.LogManager;
@@ -9,8 +9,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
-import java.io.File;
+import java.util.stream.Collectors;
 
 public class HospitalUtils {
     private static int totalPatients;

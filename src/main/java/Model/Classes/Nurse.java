@@ -1,18 +1,24 @@
-package Model;
+package Model.Classes;
 
+import Model.Enums.EquipmentType;
 import Model.Interfaces.Treatable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashSet;
 
 public class Nurse extends MedicalStaff implements Treatable {
+    private static final Logger logger = LogManager.getLogger(Nurse.class);
     private String shift;
     private HashSet<String> medicalEquipment; //Keep track of unique medical equipment a nurse handles.
+    private EquipmentType equipment; // Enum as an attribute
 
     // Constructor
-    public Nurse(String name, int age, String employeeId, String shift) {
+    public Nurse(String name, int age, String employeeId, String shift,EquipmentType equipment) {
         super(name, age, employeeId);
         this.shift = shift;
         this.medicalEquipment = new HashSet<>();
+        this.equipment = equipment;
     }
 
     // Implement Treatable interface method

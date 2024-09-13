@@ -1,4 +1,4 @@
-package Model;
+package Model.Classes;
 
 public class Clinic {
     private String name;

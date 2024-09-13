@@ -1,6 +1,6 @@
 package Model.Interfaces;
 
-import Model.Patient;
+import Model.Classes.Patient;
 
 public interface MedicationProvider {
     void prescribeMedication(Patient patient, String medication, String dosage);

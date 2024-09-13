@@ -1,4 +1,4 @@
-package Model;
+package Model.Classes;
 
 public abstract class MedicalStaff extends Person {
     protected String employeeId;  // Protected modifier

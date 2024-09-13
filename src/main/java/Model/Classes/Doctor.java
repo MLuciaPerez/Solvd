@@ -1,20 +1,26 @@
-package Model;
+package Model.Classes;
 
+import Model.Enums.Specialty;
 import Model.Interfaces.Diagnosable;
 import Model.Interfaces.MedicationProvider;
 import Model.Interfaces.Treatable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class Doctor extends MedicalStaff implements Diagnosable, MedicationProvider, Treatable {
-    private String specialty;
+public class Doctor extends MedicalStaff implements Diagnosable, MedicationProvider, Treatable{
+
+    private static final Logger logger = LogManager.getLogger(Doctor.class);
+    private Specialty specialty; // Enum as an attribute
 
     // Static variable
     public static final String role = "Doctor";
 
 
     // Constructor
-    public Doctor(String name, int age, String employeeId, String specialty) {
+    public Doctor(String name, int age, String employeeId, Specialty specialty) {
         super(name, age, employeeId);
         this.specialty = specialty;
+        logger.info("Doctor created: " + name + ", Specialty: " + specialty);
     }
 
     // Implement Diagnosable interface method
@@ -33,6 +39,7 @@ public class Doctor extends MedicalStaff implements Diagnosable, MedicationProvi
 
     //overloading of prescribeMedication
     public void prescribeMedication() {
+
         System.out.println("Doctor " + getName() + " prescribes general medication.");
     }
 
@@ -49,11 +56,11 @@ public class Doctor extends MedicalStaff implements Diagnosable, MedicationProvi
 
 
     // Getter and Setter for specialty
-    public String getSpecialty() {
+    public Specialty getSpecialty() {
         return specialty;
     }
 
-    public void setSpecialty(String specialty) {
+    public void setSpecialty(Specialty specialty) {
         this.specialty = specialty;
     }
 
@@ -64,11 +71,19 @@ public class Doctor extends MedicalStaff implements Diagnosable, MedicationProvi
 
     @Override
     public String toString() {
+
         return super.toString() + ", Specialty: " + specialty;
     }
 
     @Override
+    public String getName() {
+
+        return super.getName();
+    }
+
+    @Override
     public int hashCode() {
+
         return super.hashCode() + specialty.hashCode();
     }
 

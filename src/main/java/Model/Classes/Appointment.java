@@ -1,9 +1,14 @@
-package Model;
+package Model.Classes;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Appointment {
+    private static final Logger logger = LogManager.getLogger(Nurse.class);
     private Patient patient;
     private Doctor doctor;
     private String appointmentDate;
+
 
     // Constructor
     public Appointment(Patient patient, Doctor doctor, String appointmentDate) {

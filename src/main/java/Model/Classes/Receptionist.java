@@ -1,16 +1,25 @@
-package Model;
+package Model.Classes;
+
+import Model.Enums.PriorityLevel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedList;
 
 public class Receptionist extends Employee {
+    private static final Logger logger = LogManager.getLogger(Receptionist.class);
     private String deskNumber;
     private LinkedList<Patient> patientQueue;
+    private PriorityLevel priorityLevel; // Enum as an attribute
+
 
     // Constructor
-    public Receptionist(String name, int age, String employeeId, String deskNumber) {
+    public Receptionist(String name, int age, String employeeId, String deskNumber, PriorityLevel priorityLevel) {
         super(name, age, employeeId);
         this.deskNumber = deskNumber;
         this.patientQueue = new LinkedList<>();
+        this.priorityLevel = priorityLevel;
+        logger.info("Receptionist created: " + name + ", Priority Level: " + priorityLevel);
     }
 
     // Getter and Setter
