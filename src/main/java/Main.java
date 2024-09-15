@@ -67,8 +67,7 @@ public class Main {
 
         Supplier<Billing> billingSupplier = () -> new Billing(null, 1500.00);
 
-        UnaryOperator<Double> applyDiscount = amount -> amount * 0.90; // Aplicar un descuento del 10%
-
+        UnaryOperator<Double> applyDiscount = amount -> amount * 0.90;
 
         // Using the lambda functions
         logger.info("Patient has flu: " + hasFlu.test(patientInstance));
