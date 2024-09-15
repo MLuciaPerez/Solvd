@@ -4,15 +4,12 @@ import Model.Enums.AppointmentStatus;
 import Model.Enums.Department;
 import Model.Enums.EquipmentType;
 import Model.Enums.Specialty;
-import Model.Exceptions.*;
-import Model.Interfaces.Diagnosable;
-import Model.Interfaces.MedicationProvider;
-import Model.Interfaces.Treatable;
+import Model.FunctionalInterfaces.Evaluator;
+import Model.FunctionalInterfaces.Transformer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.io.IOException;
 
 import java.util.*;
 import java.util.function.*;
@@ -40,7 +37,7 @@ public class Main {
         logger.info("Billing and Medication objects created.\n");
 
         // Instantiate a Patient object with Billing and Medications
-        Patient patientInstance = new Patient("John Doe", 30, "P001", "Flu", billing, medications, AppointmentStatus.SCHEDULED);
+        Patient patientInstance = new Patient("Carlos Martin", 39, "P001", "Flu", billing, medications, AppointmentStatus.SCHEDULED);
         logger.info("Patient object instantiated.\n");
 
         // Link the Billing object back to the patient
@@ -72,6 +69,7 @@ public class Main {
 
         UnaryOperator<Double> applyDiscount = amount -> amount * 0.90; // Aplicar un descuento del 10%
 
+
         // Using the lambda functions
         logger.info("Patient has flu: " + hasFlu.test(patientInstance));
 
@@ -88,39 +86,24 @@ public class Main {
 
 
         // Instantiate a Patient object with Billing and Medications
-        Patient patient = new Patient("John Doe", 30, "P001", "Flu", billing, medications,AppointmentStatus.RESCHEDULED);
+        Patient patient = new Patient("John Smith", 30, "P002", "Flu", billing, medications,AppointmentStatus.RESCHEDULED);
 
-        // Test Custom Generic Lambda #1: applyFieldFunction
-        logger.info("Testing applyFieldFunction...");
-        String patientName = applyFieldFunction(Patient::getName, patient);
-        logger.info("Patient name: " + patientName);
 
-        // Test Custom Generic Lambda #2: processList
-        logger.info("Testing processList...");
-        processList(list -> list.forEach(med -> logger.info("Medication: " + med.getName() + ", Dosage: " + med.getDosage())), medications);
+        //Implementing lambda expressions for the functional generic interfaces Comparator, Evaluator, Transformer.
 
-        // Test Custom Generic Lambda #3: compareObjects
-        logger.info("Testing compareObjects...");
-        // Compare the names of Doctor and Patient
-        boolean areEqual = compareObjects((d, p) -> d.getName().equals(p.getName()), doctor, patient);
-        logger.info("Are Doctor and Patient names the same? " + areEqual);
+        // Lambda function to compare patients by age
+        Comparator<Patient> compareByAge = (p1, p2) -> Integer.compare(p1.getAge(), p2.getAge());
+        int comparisonResult = compareByAge.compare(patientInstance, patient);
+        logger.info("Comparison result: " + comparisonResult+"\n");
 
+        // Lambda function to evaluate if a patient is an adult
+        Evaluator<Patient, Boolean> isAdult = patientEv -> patient.getAge() >= 18;
+        boolean adult = isAdult.evaluate(patientInstance);
+        logger.info("Is patient an adult? " + adult +"\n");
+
+        // Lambda function to get a patient’s details as a string
+        Transformer<Patient, String> getPatientDetails = patientTr -> "Patient Name: " + patientTr.getName() + ", Age: " + patient.getAge();
+        String details = getPatientDetails.transform(patient);
+        logger.info(details);
 }
-
-    // Method that applies a given function to an object of type T and returns a result of type R.
-    public static <T, R> R applyFieldFunction(Function<T, R> function, T object) {
-        // Applies the provided function to the given object and returns the result.
-        return function.apply(object);
-    }
-
-    // Method that processes a list of type T using a given consumer.
-    public static <T> void processList(Consumer<List<T>> consumer, List<T> list) {
-        // Passes the provided list to the consumer for processing.
-        consumer.accept(list);
-    }
-
-    // Method that compares two objects of type T and U using a given BiFunction and returns a result of type R.
-    public static <T extends Person, U extends Person, R> R compareObjects(BiFunction<T, U, R> biFunction, T obj1, U obj2) {
-        return biFunction.apply(obj1, obj2);
-    }
 }
