@@ -7,6 +7,8 @@ import Model.Interfaces.Treatable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 public class Doctor extends MedicalStaff implements Diagnosable, MedicationProvider, Treatable{
 
     private static final Logger logger = LogManager.getLogger(Doctor.class);
@@ -14,46 +16,52 @@ public class Doctor extends MedicalStaff implements Diagnosable, MedicationProvi
 
     // Static variable
     public static final String role = "Doctor";
+    private List<Patient> patients;
 
 
     // Constructor
-    public Doctor(String name, int age, String employeeId, Specialty specialty) {
+    public Doctor(String name, int age, String employeeId, Specialty specialty,List<Patient> patients) {
         super(name, age, employeeId);
         this.specialty = specialty;
         logger.info("Doctor created: " + name + ", Specialty: " + specialty);
+        this.patients = patients;
+
     }
 
     // Implement Diagnosable interface method
     @Override
     public void diagnose(Patient patient) {
-        System.out.println("Doctor " + getName() + " is diagnosing patient: " + patient.getName() + " for " + patient.getAilment() + ".");
+        logger.info("Doctor " + getName() + " is diagnosing patient: " + patient.getName() + " for " + patient.getAilment() + ".");
     }
 
     // Implement MedicationProvider interface method
     @Override
     public void prescribeMedication(Patient patient, String medication, String dosage) {
-        System.out.println("Doctor " + getName() + " prescribes " + medication + " with dosage " + dosage + " to patient: " + patient.getName() + ".");
-        // Optionally, add the medication to the patient's list of medications
+        logger.info("Doctor " + getName() + " prescribes " + medication + " with dosage " + dosage + " to patient: " + patient.getName() + ".");
         patient.getMedications().add(new Medication(medication, dosage));
     }
 
     //overloading of prescribeMedication
     public void prescribeMedication() {
-
-        System.out.println("Doctor " + getName() + " prescribes general medication.");
+        logger.info("Doctor " + getName() + " prescribes general medication.");
     }
 
     // Overloaded methods
     public void prescribeMedication(String medication) {
-        System.out.println("Doctor " + getName() + " prescribes " + medication + ".");
+        logger.info("Doctor " + getName() + " prescribes " + medication + ".");
     }
 
     // Implement Treatable interface method
     @Override
     public void treatPatient(Patient patient) {
-        System.out.println("Doctor " + getName() + " is treating patient: " + patient.getName() + " for " + patient.getAilment() + ".");
+        logger.info("Doctor " + getName() + " is treating patient: " + patient.getName() + " for " + patient.getAilment() + ".");
     }
 
+
+    // Getter for patients
+    public List<Patient> getPatients() {
+        return patients;
+    }
 
     // Getter and Setter for specialty
     public Specialty getSpecialty() {
@@ -66,7 +74,7 @@ public class Doctor extends MedicalStaff implements Diagnosable, MedicationProvi
 
     @Override
     public void performDuties() {
-        System.out.println("Doctor " + getName() + " is performing duties in " + specialty + ".");
+        logger.info("Doctor " + getName() + " is performing duties in " + specialty + ".");
     }
 
     @Override

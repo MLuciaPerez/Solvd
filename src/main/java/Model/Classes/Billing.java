@@ -1,8 +1,12 @@
 package Model.Classes;
 
 import Model.Interfaces.Payable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Billing implements Payable {
+
+    private static final Logger logger = LogManager.getLogger(Billing.class);
     private Patient patient;
     protected double amount;  // Protected modifier
 
@@ -14,7 +18,7 @@ public class Billing implements Payable {
 
     // Implement Payable interface method
     public void processPayment() {
-        System.out.println("Processing payment of $" + amount + " for patient: " + (patient != null ? patient.getName() : "Unknown"));
+        logger.info("Processing payment of $" + amount + " for patient: " + (patient != null ? patient.getName() : "Unknown"));
     }
 
     // Getter and Setter for patient
