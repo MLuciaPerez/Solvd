@@ -34,12 +34,12 @@ public final class Patient extends Person implements Payable {
     // Implement Payable interface method
 
     public void processPayment() {
-        System.out.println("Processing payment for patient: " + getName());
+        logger.info("Processing payment for patient: " + getName());
     }
 
     // Implement performDuties from Person
     public void performDuties() {
-        System.out.println("PatientZ does not have specific duties.");
+        logger.info("PatientZ does not have specific duties.");
     }
 
     // Getters and Setters
@@ -82,7 +82,7 @@ public final class Patient extends Person implements Payable {
 
     // Final method
     public final void printPatientInfo() {
-        System.out.println("Patient ID: " + patientId + ", Ailment: " + ailment);
+        logger.info("Patient ID: " + patientId + ", Ailment: " + ailment);
     }
 
     // Override toString() method
@@ -107,7 +107,7 @@ public final class Patient extends Person implements Payable {
 
     public void addAppointmentDate(Date date) {
         appointmentDates.add(date);
-        System.out.println("Appointment date added: " + date);
+        logger.info("Appointment date added: " + date);
     }
 
     public TreeSet<Date> getAppointmentDates() {

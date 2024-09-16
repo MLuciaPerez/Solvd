@@ -24,18 +24,18 @@ public class Nurse extends MedicalStaff implements Treatable {
     // Implement Treatable interface method
     @Override
     public void treatPatient(Patient patient) {
-        System.out.println("Nurse " + getName() + " is assisting in treating patient: " + patient.getName());
+        logger.info("Nurse " + getName() + " is assisting in treating patient: " + patient.getName());
     }
 
     // Implement performDuties method from MedicalStaff
     @Override
     public void performDuties() {
-        System.out.println("Performing nursing duties during " + shift + " shift.");
+        logger.info("Performing nursing duties during " + shift + " shift.");
     }
 
     // Static block
     static {
-        System.out.println("Static block in Nurse class executed.");
+        logger.info("Static block in Nurse class executed.");
     }
 
     // Getter and Setter for shift
@@ -49,7 +49,7 @@ public class Nurse extends MedicalStaff implements Treatable {
 
     public void addEquipment(String equipment) {
         medicalEquipment.add(equipment);
-        System.out.println("Equipment added: " + equipment);
+        logger.info("Equipment added: " + equipment);
     }
 
     public HashSet<String> getMedicalEquipment() {

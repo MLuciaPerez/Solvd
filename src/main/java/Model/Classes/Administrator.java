@@ -27,13 +27,14 @@ public class Administrator extends Person implements Manageable {
     // Implement Manageable interface method
 
     public void manage() {
-        System.out.println("Administrator " + getName() + " is managing the " + department + " department.");
+        logger.info("Administrator " + getName() + " is managing the " + department + " department.");
     }
 
     // Implement performDuties from Person
     @Override
     public void performDuties() {
-        System.out.println("Performing administrative duties in the " + department + " department.");
+        logger.info("Performing administrative duties in the " + department + " department.");
+
     }
 
 
@@ -50,7 +51,8 @@ public class Administrator extends Person implements Manageable {
 
     public void addDepartmentStaff(String department, int count) {
         departmentStaffCount.put(department, count);
-        System.out.println("Added staff to department: " + department + ", Count: " + count);
+        logger.info("Added staff to department: " + department + ", Count: " + count);
+
     }
 
     public HashMap<String, Integer> getDepartmentStaffCount() {

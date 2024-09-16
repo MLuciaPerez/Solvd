@@ -3,18 +3,25 @@ package Model.Classes;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Appointment {
-    private static final Logger logger = LogManager.getLogger(Nurse.class);
+import java.time.LocalDate;
+
+public class Appointment implements Comparable<Appointment>{
+    private static final Logger logger = LogManager.getLogger(Appointment.class);
     private Patient patient;
     private Doctor doctor;
-    private String appointmentDate;
+    private  LocalDate appointmentDate;
+    private LocalDate Date;
+    private int duration; // Add duration attribute
 
 
     // Constructor
-    public Appointment(Patient patient, Doctor doctor, String appointmentDate) {
+    public Appointment(Patient patient, Doctor doctor, LocalDate appointmentDate,LocalDate date, int duration) {
         this.patient = patient;
         this.doctor = doctor;
         this.appointmentDate = appointmentDate;
+        this.Date = date;
+        this.duration = duration;
+
     }
 
     // Getter and Setter for patient
@@ -36,11 +43,24 @@ public class Appointment {
     }
 
     // Getter and Setter for appointmentDate
-    public String getAppointmentDate() {
+
+
+    public LocalDate getAppointmentDate() {
         return appointmentDate;
     }
 
-    public void setAppointmentDate(String appointmentDate) {
+    public int getDuration() {
+        return duration;
+    }
+
+    // Other methods related to Appointment...
+
+    public int compareTo(Appointment other) {
+        // Ordenar por fecha de la cita
+        return this.appointmentDate.compareTo(other.appointmentDate);
+    }
+
+    public void setAppointmentDate(LocalDate appointmentDate) {
         this.appointmentDate = appointmentDate;
     }
 

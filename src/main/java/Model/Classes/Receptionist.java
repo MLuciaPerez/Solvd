@@ -34,31 +34,31 @@ public class Receptionist extends Employee {
     // Implement the abstract method from Person
     @Override
     public void performDuties() {
-        System.out.println("Receptionist " + getName() + " is managing the desk at number " + deskNumber + ".");
+        logger.info("Receptionist " + getName() + " is managing the desk at number " + deskNumber + ".");
     }
 
     // Method to add a patient to the queue
     public void checkInPatient(Patient patient) {
         patientQueue.add(patient);
-        System.out.println("Patient checked in: " + patient.getName());
+        logger.info("Patient checked in: " + patient.getName());
     }
 
     // Method to get the next patient from the queue
     public Patient nextPatient() {
         Patient patient = patientQueue.poll();
         if (patient != null) {
-            System.out.println("Next patient: " + patient.getName());
+            logger.info("Next patient: " + patient.getName());
         } else {
-            System.out.println("No patients in the queue.");
+            logger.info("No patients in the queue.");
         }
         return patient;
     }
 
     // Method to show all patients in the queue
     public void showPatientQueue() {
-        System.out.println("Patient queue:");
+        logger.info("Patient queue:");
         for (Patient patient : patientQueue) {
-            System.out.println(patient.getName());
+            logger.info(patient.getName());
         }
     }
     @Override
