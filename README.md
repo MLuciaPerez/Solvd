@@ -1,5 +1,73 @@
 
-Homework lambda functions, Lambda functions with generics and complex Enums:
+Homework - Interface, static , final:
+ 
+Polymorphism with Abstract Class and Interface
+Doctor and Nurse are concrete classes that extend MedicalStaff. Both override the abstract method performDuties. Doctor implements Diagnosable, MedicationProvider, and Treatable, providing specific implementations for the methods. Patient implements Payable. Administrator implements Manag
+eable.
+
+Final Class, Method, and Variable
+The Patient class is marked as final.
+The method printPatientInfo() in the Patient class is marked as final.
+The variable role in the Doctor class is marked as final.
+
+Static Block, Method, and Variable
+In HospitalUtils:
+Static Block: initializes static variables and performing any other setup required when the class is first loaded.
+Static variables: totalPatients and departmentPatientCount.
+Static Methods: registerPatient(String department), showTotalPatients(), showPatientCountByDepartment().
+
+
+Homework - Exceptions:
+
+Custom Exceptions:
+DepartmentNotFoundException: Thrown when the department does not exist.
+InvalidAgeException: Thrown when a negative age is provided.
+DuplicatePatientException: Thrown when a duplicate patient is registered.
+InsufficientFundsException: Thrown when there are insufficient funds for payment.
+UnauthorizedAccessException: Thrown when there is an attempt to access patient data without permission.
+
+HospitalUtils Class:
+Method registerPatient(String department, String patientName, int age): Registers a patient, handles exceptions like DepartmentNotFoundException, InvalidAgeException, and DuplicatePatientException.
+The try-with-resources block is located in the registerPatient method. This block automatically handles the closing of the BufferedWriter after writing patient information to the patients.txt file.
+Method processPayment(double amount): Processes payments and handles InsufficientFundsException.
+Method accessPatientData(boolean hasPermission): Accesses patient data and handles UnauthorizedAccessException.
+
+At the end of Main Class:
+Exception Handling: Demonstrates handling of custom exceptions with try-catch blocks.
+
+
+
+Homework - Collections:
+
+ArrayList in the Patient class: Stores a list of medications.
+HashSet in the Nurse class: Tracks the unique medical equipment a nurse handles.
+HashMap in the Administrator class: Maps department names to the number of staff members in each department.
+TreeSet in the Patient class: Stores a sorted set of appointment dates for each patient.
+LinkedList in the Receptionist class: To manage patients.
+
+Class CustomLinkedList.
+
+
+
+Homework - Maven:
+
+pom.xml: Includes configurations for the compiler, dependencies, and plugins.
+Dependencies: Added dependencies for log4j-api and log4j-core.
+Plugins: Added plugins for creating JAR files (maven-jar-plugin) and compiling the code (maven-compiler-plugin).
+
+
+
+
+Homework - FileUtils and StringUtils:
+
+Dependencies commons-io and commons-lang3 were added to use FileUtils and StringUtils.
+Counter class is responsible for reading the file, counting the unique words and writing the result to an output file.
+
+
+
+
+
+Homework -  lambda functions, Lambda functions with generics and complex Enums:
 
 Integrated 5 lambda functions from the java.util.function package at the end of the Main class.
 
@@ -18,7 +86,8 @@ Integarted the Enums in classes Doctor, Nurse, Administrator, Patient and Recept
 
 
 
-Homework  collection streaming/  reflection:
+
+Homework - collection streaming/  reflection:
 
 Added Stream Operations to Clinic Class:
 Filtering Doctors: Added getExperiencedDoctors() to filter doctors with more than 5 patients.
