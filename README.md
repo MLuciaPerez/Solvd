@@ -1,3 +1,6 @@
+Homework - Mysql 
+In file Solvd.sql
+
 
 Homework - Interface, static , final:
  
